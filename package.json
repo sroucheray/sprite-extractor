@@ -1,0 +1,43 @@
+{
+  "name": "sprite-extractor",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sroucheray/sprite-extractor.git"
+  },
+  "keywords": [
+    "sprite",
+    "extract",
+    "spritesheet",
+    "coordinates",
+    "css"
+  ],
+  "author": "@sroucheray",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sroucheray/sprite-extractor/issues"
+  },
+  "homepage": "https://github.com/sroucheray/sprite-extractor#readme",
+  "devDependencies": {
+    "jspm": "^0.15.6"
+  },
+  "jspm": {
+    "directories": {},
+    "dependencies": {
+      "backbone": "npm:backbone@^1.2.0",
+      "bootflat": "npm:bootflat@^2.0.4",
+      "jquery": "github:components/jquery@^2.1.4",
+      "sroucheray/esstage.js": "github:sroucheray/esstage.js@master",
+      "twbs/bootstrap-sass": "github:twbs/bootstrap-sass@^3.3.4"
+    },
+    "devDependencies": {
+      "traceur": "github:jmcriffey/bower-traceur@0.0.88",
+      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88"
+    }
+  }
+}
