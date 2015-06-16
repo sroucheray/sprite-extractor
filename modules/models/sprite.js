@@ -1,7 +1,8 @@
 import Backbone from "backbone";
 
 var SpriteModel = Backbone.Model.extend({
-    initialize: function () {
+    initialize: function (attrs) {
+        this.size = attrs.width * attrs.height;
     }
 });
 

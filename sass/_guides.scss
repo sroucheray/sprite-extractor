@@ -1,0 +1,73 @@
+.guides-font{
+    content: attr(data-size);
+    font-size: 10px;
+    position: absolute;
+}
+
+.guides-general{
+    @include transition(all linear 50ms);
+    &.disappear {
+        opacity: 0;
+        &:before, &:after{
+            content: "";
+        }
+    }
+}
+
+
+.sheet-guides {
+    position: absolute;
+    left: 0;
+    top: 0;
+    > div {
+        border: none;
+        position: absolute;
+    }
+    .vertical-left {
+        @extend .guides-general;
+        border-left: $guide-line-style;
+        width: 1px;
+        &:before{
+            @extend .guides-font;
+            top: -1.2em;
+            right: 3px;
+            text-align: right;
+            z-index: 1;
+        }
+    }
+    .vertical-right {
+        @extend .guides-general;
+        border-right:$guide-line-style;
+        width: 1px;
+        &:after{
+            @extend .guides-font;
+            top: -1.2em;
+            left: 3px;
+            text-align: left;
+            z-index: 1;
+        }
+    }
+    .horizontal-top {
+        @extend .guides-general;
+        border-top:$guide-line-style;
+        height: 1px;
+        &:before{
+            @extend .guides-font;
+            content: attr(data-size);
+            right: 100%;
+            z-index:1;
+            bottom: 0;
+        }
+    }
+    .horizontal-bottom {
+        @extend .guides-general;
+        border-bottom: $guide-line-style;
+        height: 1px;
+        &:after{
+            @extend .guides-font;
+            content: attr(data-size);
+            right: 100%;
+            z-index:1;
+        }
+    }
+}

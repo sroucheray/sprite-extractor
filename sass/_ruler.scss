@@ -1,0 +1,108 @@
+.rulers{
+    font-size: 10px;
+
+    .corner{
+        position: absolute;
+        box-sizing: content-box;
+        background: lightYellow;
+        box-shadow: 0 -1px 1em hsl(60, 60%, 84%) inset;
+        border-radius: 2px;
+        border: 1px solid #ccc;
+        color: #ccc;
+        width: 4em;
+        height: 4em;
+        top:0;
+        left: 0;
+    }
+}
+
+
+.ruler{
+    position: absolute;
+    top:0;
+    left:0;
+}
+.ruler, .ruler li {
+    box-sizing: content-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+}
+.ruler.horizontal {
+    background: lightYellow;
+    box-shadow: 0 -1px 1em hsl(60, 60%, 84%) inset;
+    border-radius: 2px;
+    border: 1px solid #ccc;
+    color: #ccc;
+    margin: 0;
+    height: 4em;
+    /* padding-right: $rule-size; */
+    white-space: nowrap;
+    margin-left: 0;
+    overflow: hidden;
+
+    li {
+        padding-left: $rule-size;
+        width: 2em;
+        margin: .64em -1em -.64em;
+        text-align: center;
+        position: relative;
+        text-shadow: 1px 1px hsl(60, 60%, 84%);
+
+        &:before {
+            box-sizing: content-box;
+            content: '';
+            position: absolute;
+            border-left: 1px solid #ccc;
+            height: .64em;
+            top: -.64em;
+            right: 1em;
+        }
+        &.big:before{
+            height: 0.9em;
+        }
+    }
+}
+
+
+.ruler.vertical {
+    background: lightYellow;
+    box-shadow: 0 -1px 1em hsl(60, 60%, 84%) inset;
+    border-radius: 2px;
+    border: 1px solid #ccc;
+    color: #ccc;
+    margin: 0;
+    width: 4em;
+    padding-top: $rule-size - 7px;
+    padding-bottom: $rule-size;
+    white-space: nowrap;
+    overflow: hidden;
+
+    li {
+        display: block;
+        min-width: 4em;
+
+        height: 10px;
+        text-align: left;
+        position: relative;
+        right: 1px;
+        text-shadow: 1px 1px hsl(60, 60%, 84%);
+        padding-left: 1.1em;
+
+        &:before {
+            margin-top: 7px;
+            box-sizing: content-box;
+            content: '';
+            position: absolute;
+            border-top: 1px solid #ccc;
+            width: .64em;
+            left: 0;
+            /* left: -.64em; */
+            /* top: 1em; */
+        }
+        &.big:before{
+            width: 0.9em;
+        }
+    }
+}

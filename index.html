@@ -1,97 +1,122 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="description" content="sprite extractor">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Sprite Extractor</title>
-        <link rel="stylesheet" href="css/styles.css">
-        <script src="./jspm_packages/system.js"></script>
-        <script src="./config.js"></script>
-    </head>
-    <body>
-        <nav class="main-nav-bar navbar navbar-default navbar-fixed-top">
-            <div class="navbar-header">
-                <a href="/" class="navbar-brand">
-                    Sprite extractor
-                </a>
-                <p>Extract sprite position and size from sprite sheet</p>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="sprite extractor">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sprite Extractor</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="./jspm_packages/system.js"></script>
+    <script src="./config.js"></script>
+</head>
+<body>
+    <div class="main container-fluid">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#home" aria-controls="home" role="tab"  data-toggle="tab">Sprite extractor</a></li>
+                        <li><a href="#edit" aria-controls="edit" role="tab"  data-toggle="tab">Editing</a></li>
+                        <li><a href="#css"  aria-controls="css" role="tab" data-toggle="tab">CSS</a></li>
+                    </ul>
+                </div>
             </div>
         </nav>
-        <div class="content container-fluid">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Settings</h3>
-                        </div>
-                        <div class="panel-body">
-                        Panel content
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-10">
+        <div id="home" class="home-view">
+            <div class="container">
+                <div class="jumbotron dropzone text-center">
                     <div class="row">
-                        <div class="col-md-12">
-                            <div role="tabpanel">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#sprite" aria-controls="home" role="tab" data-toggle="tab">Sprite sheet</a></li>
-                                    <li role="presentation"><a href="#css" aria-controls="profile" role="tab" data-toggle="tab">CSS</a></li>
-                                    <li role="presentation"><a href="#json" aria-controls="messages" role="tab" data-toggle="tab">JSON</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="sprite">
-
-                                        <div class="sprite-wrapper">
-                                            <div class="import">
-                                            <div class="panel panel-default text-center">
-                                                <div class="panel-body">
-                                                    <h3>Drop sprite sheet image here</h3>
-                                                        <div>
-                                                            <label for="file">or choose a file</label>
-                                                            <div>
-                                                                <input type="file" id="file" accept="image/png, image/gif, image/jpg">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <label>or try an example</label>
-                                                        <img src="..." alt="..." class="img-rounded">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <canvas class="sprite" id="sprite"></canvas>
-                                            <div class="sheet-rect"></div>
-                                            <div class="sheet-guide"></div>
-                                        </div>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="css">
-                                        <div class="container-fluid output">
-                                            <div class="row">
-                                                <div class="col-md-6 col-md-offset-2 code">
-                                                    <pre>
-                                                    </pre>
-                                                </div>
-                                                <div class="col-md-4 background-images">
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="json">...</div>
-                                  </div>
-                            </div>
+                        <div class="col-md-6 col-md-offset-3">
+                            <form>
+                                <h3>Drop a sprite sheet here or click to browse.</h3>
+                                <div>Or try this example first :</div>
+                                <div>
+                                    <a href="#">
+                                        <img src="assets/mario.png" class="img-rounded" style="width:150px">
+                                    </a>
+                                </div>
+                                <input type="file" name="file" id="file" accept="image/png, image/gif, image/jpg">
+                            </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
+        <div id="edit" class="editing-view">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="editor">
+                        <canvas class="sprite" id="sprite"></canvas>
+                        <div class="sheet-rect"></div>
+                        <div class="sheet-rows"></div>
+                        <div class="sheet-guides">
+                            <div class="vertical-left"></div>
+                            <div class="vertical-right"></div>
+                            <div class="horizontal-top"></div>
+                            <div class="horizontal-bottom"></div>
+                        </div>
+                        <div class="rulers">
+                            <ul class="ruler horizontal"></ul>
+                            <ul class="ruler vertical"></ul>
+                            <div class="corner"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 editor-panel">
+                    <div class="panel-group" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Display settings</div>
+                            <div class="panel-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label>Image display style</label>
+                                        <div class="btn-group" data-toggle="buttons" id="spriteSheetStyle">
+                                            <label class="btn btn-sm btn-primary active">
+                                                <input type="radio" name="spriteSheetStyle" autocomplete="off" value="0" checked> Original
+                                            </label>
+                                            <label class="btn btn-sm btn-primary">
+                                                <input type="radio" name="spriteSheetStyle" autocomplete="off" value="1"> Greyed
+                                            </label>
+                                            <label class="btn btn-sm btn-primary">
+                                                <input type="radio" name="spriteSheetStyle" autocomplete="off" value="-1"> None
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Selection</div>
+                            <div class="panel-body">
+                                <form id="selectionForm">
+                                    <fieldset disabled>
+                                        <div class="form-group merge-overlapping">
+                                            <button type="button" class="btn btn-default btn-sm">Merge with overlapping sprites</button>
+                                        </div>
+                                        <div class="form-group merge-selected hide">
+                                            <button type="button" class="btn btn-default btn-sm">Merge selected sprites</button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="css" class="css-view"></div>
 
-        <script>
+    </div>
+    <script>
         System.import("modules/app");
-        </script>
-    </body>
+    </script>
+</body>
 </html>

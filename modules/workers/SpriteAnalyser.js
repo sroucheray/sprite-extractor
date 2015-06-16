@@ -23,7 +23,7 @@ class SpriteAnalyser extends PubSub {
         this.results = [];
         this.borders = params.borders;
 
-        console.log(this.backgroundPixel)
+        //console.log(this.backgroundPixel)
     }
 
     isBackground(x, y) {
@@ -80,49 +80,74 @@ class SpriteAnalyser extends PubSub {
         this.results = [];
         let currentRow;
         let rowNum = 0;
+        let numSpritesPerRow = 0;
         let id = 0;
         for (let y = 0; y < this.height; y++) {
-            console.log("line", y, this.height)
             for (let x = 0; x < this.width; x++) {
                 if(this.visited[this.getPosition(x, y)] !== 1 && !this.isBackground(x, y)){
-                    //console.log("fg", x, y)
                     let result = this.buildSprite2(x, y);
+
+                    if (!currentRow) {
+                        numSpritesPerRow = 0;
+                        currentRow = {
+                            top: result.y,
+                            bottom: result.y + result.height
+                        }
+                    } else if (this.isInRow(currentRow.top, currentRow.bottom, result.y, result.y + result.height)) {
+                        currentRow = {
+                            top: Math.min(result.y, currentRow.top),
+                            bottom: Math.max(result.y + result.height, currentRow.bottom)
+                        }
+                        numSpritesPerRow++;
+                    } else {
+                        currentRow.row = rowNum;
+                        currentRow.numSprite = numSpritesPerRow;
+                        numSpritesPerRow = 0;
+                        this.trigger("row", currentRow);
+                        currentRow = {
+                            top: result.y,
+                            bottom: result.y + result.height
+                        }
+
+                        rowNum++;
+                    }
+
                     result.id = id;
                     result.row = rowNum;
 
                     this.trigger("sprite", result);
                     this.results.push(result);
-                    console.log("result", result)
                     id++;
-
-                    /*if(id >= 1){
-                        return;
-                    }*/
                 }
-                /*let existingResult = this.inExistingResult(x, y);
-                if (existingResult) {
-                    x = x + existingResult.width - 1
-                    continue;
-                }*/
             }
         }
-        console.log("end")
 
+        currentRow.row = rowNum;
+        this.trigger("row", currentRow);
+        currentRow = {
+            top: result.y,
+            bottom: result.y + result.height
+        }
+
+        this.trigger("end");
     }
 
     buildSprite2(x, y){
-        console.log("start", x, y)
         let dx = [0, -1, +1, 0];
         let dy = [-1, 0, 0, +1];
-        let xs = [];
-        let ys = [];
+
+        let minX = this.width, minY = this.height, maxX = 0, maxY = 0;
         let stack = [{x:x, y:y, position: this.getPosition(x, y)}];
 
 
         while (stack.length > 0) {
             let curPoint = stack.pop();
-            xs.push(curPoint.x);
-            ys.push(curPoint.y);
+            minX = Math.min(minX, curPoint.x);
+            minY = Math.min(minY, curPoint.y);
+
+            maxX = Math.max(maxX, curPoint.x);
+            maxY = Math.max(maxY, curPoint.y);
+
             this.visited[curPoint.position] = 1;
 
             for (let i = 0; i < 4; i++) {
@@ -134,36 +159,16 @@ class SpriteAnalyser extends PubSub {
                 let nextPixel = this.getPixel(nextPointX, nextPointY);
 
                 if (this.visited[nextPixel.position] !== 1 && !this.pixelEquals(nextPixel, this.backgroundPixel)){
-                    //console.log("trigegr", this.visited[position])
-
                     stack.push({x:nextPointX, y:nextPointY, position: nextPixel.position});
-                    /*this.trigger("sprite", {
-                        x: nextPointX,
-                        y: nextPointY,
-                        width:1,
-                        height:1
-                    });*/
                 }
             }
-
-        //console.log(">",stack.length)
         }
-        //console.log(">>",stack.length)
-        /*console.log(xs);
-        console.log(ys);*/
-        x = Math.min.apply(Math, xs);
-        y = Math.min.apply(Math, ys);
-        if(x == Number.POSITIVE_INFINITY){
-        console.log(xs)
-        console.log(ys)
 
-        }
-        //console.log(x, y, Math.max.apply(Math, xs) - x, Math.max.apply(Math, ys) - y)
         return {
-            x: x,
-            y: y,
-            width: Math.max.apply(Math, xs) - x + 1,
-            height: Math.max.apply(Math, ys) - y + 1
+            x: minX,
+            y: minY,
+            width: maxX - minX + 1,
+            height: maxY - minY + 1
         };
     }
 
@@ -179,9 +184,9 @@ class SpriteAnalyser extends PubSub {
                     x = x + existingResult.width - 1
                     continue;
                 }
-                console.log(x, y)
+                //console.log(x, y)
                 if (this.isBackground(x, y)) {
-                    console.log("isbackground")
+                    //console.log("isbackground")
                     this.trigger("bg", {
                         x: x,
                         y: y,
@@ -189,7 +194,7 @@ class SpriteAnalyser extends PubSub {
                         height: 1
                     });
                 } else {
-                    console.log("isforeground")
+                    //console.log("isforeground")
                     let result = this.buildSprite(x, y);
 
                     if (!currentRow) {

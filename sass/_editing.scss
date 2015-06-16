@@ -1,0 +1,134 @@
+.editing-view {
+    width: 100%;
+
+    .editor-panel {
+        position: fixed;
+        right: 10px;
+        top: 100px;
+    }
+
+    .editor {
+        position: absolute;
+        left: 15px;
+
+        .sprite {
+            @include box-shadow(1px 1px 5px 2px #656565);
+            position: relative;
+            left: $hoffset;
+            top: $hoffset;
+            display: none;
+
+            &.show {
+                display: block;
+                margin-right: 200px;
+            }
+
+            &.greyed {
+                @include filter(grayscale(100%));
+            }
+
+            &.invisible {
+                visibility: hidden;
+            }
+        }
+
+        .sheet-rect, .sheet-rows {
+            position: absolute;
+            left: $hoffset;
+            top: $hoffset;
+
+            .rect {
+                position: absolute;
+                background: transparentize($rect-color, 0.7);
+                box-shadow: inset 0px 0px 0px 1px $rect-color;
+
+                &:hover {
+                    border: $guide-line-style;
+                }
+
+                &.selected {
+                    background: transparentize($rect-color-selected, 0.7);
+                    box-shadow: inset 0px 0px 0px 1px $rect-color-selected;
+                }
+            }
+
+            .line {
+                $circle-diameter: 6px;
+                display: block;
+                position: absolute;
+                width: calc(100% + 5px);
+                height: 1px;
+                font-size: 10px;
+                right: 0;
+                z-index: 1;
+
+                &:hover {
+                    width: calc(100% + 110px);
+
+                    &.top, &.bottom {
+                        &:before, &:after {
+                            display: block;
+                        }
+                    }
+                }
+
+                &.top {
+                    background-color: blue;
+                    border-color: blue;
+
+                    &:before {
+                        display: none;
+                        content: attr(data-sticker);
+                        position: absolute;
+                        text-align: right;
+                        right: 100%;
+                        bottom: -1em;
+                        width: 200px;
+                    }
+
+                    &:after {
+                        display: none;
+                        @extend .glyphicon;
+                        content: "\e252";
+                        position: absolute;
+                        right: -1px;
+                        top: -2px;
+                        color: blue;
+                    }
+                }
+
+                &.bottom {
+                    background-color: red;
+                    border-color: red;
+
+                    &:before {
+                        display: none;
+                        content: attr(data-sticker);
+                        position: absolute;
+                        text-align: right;
+                        right: 100%;
+                        top: -1em;
+                        width: 200px;
+                    }
+
+                    &:after {
+                        display: none;
+                        @extend .glyphicon;
+                        content: "\e253";
+                        position: absolute;
+                        right: -1px;
+                        top: -7px;
+                        color: red;
+                    }
+                }
+
+                &:hover {
+                    border-bottom-style: solid;
+                    border-top-style: solid;
+                    border-top-width: 1px;
+                    border-bottom-width: 1px;
+                }
+            }
+        }
+    }
+}

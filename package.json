@@ -31,8 +31,9 @@
     "dependencies": {
       "backbone": "npm:backbone@^1.2.0",
       "bootflat": "npm:bootflat@^2.0.4",
+      "cowboy/jquery-throttle-debounce": "github:cowboy/jquery-throttle-debounce@master",
       "jquery": "github:components/jquery@^2.1.4",
-      "sroucheray/esstage.js": "github:sroucheray/esstage.js@master",
+      "lodash": "npm:lodash@^3.9.3",
       "twbs/bootstrap-sass": "github:twbs/bootstrap-sass@^3.3.4"
     },
     "devDependencies": {

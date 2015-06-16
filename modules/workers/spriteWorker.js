@@ -3,13 +3,15 @@ importScripts("/jspm_packages/es6-module-loader.js");
 importScripts("/jspm_packages/system.js");
 importScripts("/config.js");
 
+var importPromise = System.import("modules/workers/SpriteAnalyser");
+var spriteAnalyser;
 onmessage = function(e) {
     var imageData = e.data.imageData;
-    console.log(e.data)
-    System.import("modules/workers/SpriteAnalyser").then(function(imports){
-        var SpriteAnalyser = imports.default;
-        var spriteAnalyser = new SpriteAnalyser(imageData);
+        console.log("get image", imageData);
 
+    importPromise.then(function(imports){
+        var SpriteAnalyser = imports.default;
+        spriteAnalyser = new SpriteAnalyser(imageData);
         spriteAnalyser.on("sprite", function(rect){
             postMessage({
                 type: "rect",
@@ -23,11 +25,12 @@ onmessage = function(e) {
                 data: row
             });
         });
-        /*spriteAnalyser.on("bg", function(data){
-            //console.log(data);
-            data.isBG = true;
-            postMessage(data);
-        });*/
+
+        spriteAnalyser.on("end", function(){
+            postMessage({
+                type: "end"
+            });
+        });
 
         spriteAnalyser.analyse2();
     });

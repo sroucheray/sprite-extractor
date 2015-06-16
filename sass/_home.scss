@@ -1,0 +1,15 @@
+.home-view {
+    width: 100%;
+    margin-top: 20px;
+
+    .dropzone {
+        cursor: pointer;
+        input[type=file]{
+            display: none;
+        }
+
+        &.dragover {
+            box-shadow: inset 0 3px 4px #888;
+        }
+    }
+}
