@@ -5,35 +5,17 @@ import _ from "lodash";
 var SpriteSheet = Backbone.Collection.extend({
     model: SpriteModel,
     initialize:function(){
-        this.numSelected = 0;
         this.maxID = 0;
         this.maxSize = 0;
-        this.on("change:selected", (rect)=>{
-            if(rect.get("selected")){
-                this.numSelected++;
-
-                return;
-            }
-
-            this.numSelected--;
-        });
-
-        this.on("remove", (rect)=>{
-            if(rect.get("selected")){
-                this.numSelected--;
-
-                return;
-            }
-        });
 
         this.on("add", (rect)=>{
             this.maxID = Math.max(this.maxID, rect.id);
             this.maxSize = Math.max(this.maxSize, rect.size);
         });
     },
-    visible:function(){
+    selected: function(){
         return this.filter(function(rect){
-            return !(rect.has("show") && !rect.get("show"));
+            return rect.get("selected");
         });
     },
     numVisible:function(){
@@ -42,49 +24,23 @@ var SpriteSheet = Backbone.Collection.extend({
     rowsVisible:function(){
         this.visible().pluck("line");
     },
-    merge:function(){
-        console.log('merge ')
-        if(this.numSelected === 0){
-            return;
-        }
-
-        if(this.numSelected === 1){
-            this.mergeOverlapping();
-
-            return;
-        }
-
-        if(this.numSelected > 1){
-            console.log('merge selection')
-            this.mergeSelection();
-
-            return;
-        }
-    },
-    mergeOverlapping:function(){
-
-    },
-    mergeSelection:function(){
-        let selectedModels = this.filter(function(rect){
-            return rect.get("selected");
-        });
-
-        let minX = _.min(selectedModels, function(rect){
+    mergeRects:function(rects){
+        let minX = _.min(rects, function(rect){
             return rect.get("x");
         }).get("x");
 
-        let maxX = _.max(selectedModels, function(rect){
+        let maxX = _.max(rects, function(rect){
             return rect.get("x") + rect.get("width");
         });
 
         maxX = maxX.get("x") + maxX.get("width");
 
 
-        let minY = _.min(selectedModels, function(rect){
+        let minY = _.min(rects, function(rect){
             return rect.get("y");
         }).get("y");
 
-        let maxY = _.max(selectedModels, function(rect){
+        let maxY = _.max(rects, function(rect){
             return rect.get("y") +  rect.get("height");
         });
 
@@ -95,13 +51,54 @@ var SpriteSheet = Backbone.Collection.extend({
             y: minY,
             width: maxX - minX,
             height: maxY - minY,
-            selection: selectedModels,
+            selection: rects,
             id: (++this.maxID),
             selected: true
         };
 
         this.add(mergedRect);
-        this.remove(selectedModels);
+        this.remove(rects);
+    },
+    merge:function(){
+        let numSelected = this.selected().length;
+        if(numSelected === 0){
+            return;
+        }
+
+        if(numSelected === 1){
+            this.selectOverlapping();
+
+            return;
+        }
+
+        if(numSelected > 1){
+            this.mergeSelection();
+
+            return;
+        }
+    },
+    selectOverlapping:function(){
+        let selectedRect = this.selected()[0];
+        let left = selectedRect.get("x"),
+            top = selectedRect.get("y"),
+            right = left + selectedRect.get("width"),
+            bottom = top + selectedRect.get("height");
+
+        this.forEach(function(rect){
+            let rectLeft = rect.get("x"),
+                rectTop = rect.get("y"),
+                rectRight = rectLeft + rect.get("width"),
+                rectBottom = rectTop + rect.get("height");
+
+
+            if(!(rectLeft > right || rectRight < left ||  rectTop > bottom || rectBottom < top)){
+                rect.set("selected", true);
+            }
+        });
+    },
+    mergeSelection:function(){
+        let selectedRects = this.selected();
+        this.mergeRects(selectedRects);
     }
 });
 

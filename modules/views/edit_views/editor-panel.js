@@ -9,20 +9,21 @@ let View = Backbone.View.extend({
     model: fileModel,
     el: document.querySelector(".editor-panel"),
     initialize:function(){
-        spriteSheet.on("change:selected", ()=>{
-            let $fieldset = this.$el.find("#selectionForm fieldset");
-            $fieldset.attr("disabled", !spriteSheet.numSelected);
+        spriteSheet.on("change:selected add remove", ()=>{
+            let $fieldset = this.$el.find("#selectionForm fieldset"),
+                numSelected = spriteSheet.selected().length;
+            $fieldset.attr("disabled", !numSelected);
 
             let $overlapping = $fieldset.find(".merge-overlapping");
             let $selected = $fieldset.find(".merge-selected");
 
-            if(spriteSheet.numSelected === 1){
-                $selected.addClass("hide");
-                $overlapping.removeClass("hide");
+            if(numSelected === 1){
+                $selected.find("button").attr("disabled", true);
+                $overlapping.find("button").attr("disabled", null);
             }
-            if(spriteSheet.numSelected > 1){
-                $selected.removeClass("hide");
-                $overlapping.addClass("hide");
+            if(numSelected > 1){
+                $selected.find("button").attr("disabled", null);
+                $overlapping.find("button").attr("disabled", true);
             }
         });
     },
