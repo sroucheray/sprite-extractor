@@ -1,0 +1,49 @@
+#css {
+    position: static;
+    .code {
+        word-wrap: break-word;
+        white-space: pre;
+        display: block;
+        counter-reset: code-counter;
+        list-style: none;
+        padding-left: 0;
+        font-family: 'Ubuntu Mono', monospace;
+
+        li {
+            background-color: none;
+            border-right: 1px solid #ccc;
+            position: relative;
+            padding-left: 5em;
+            &:before{
+                position: absolute;
+                top: 0;
+                left: 0;
+                border-right: 1px solid #ccc;
+                padding-right: 1em;
+                content: counter(code-counter);
+                counter-increment: code-counter;
+                background: lightYellow none repeat scroll 0 0;
+                color: #ccc;
+                width: 4em;
+                text-align: right;
+                display: inline-block;
+                height: 100%;
+                -webkit-user-select: none; /* Chrome/Safari */
+                -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* IE10+ */
+            }
+        }
+
+        li.odd{
+            background-color: lightYellow;
+        }
+
+        output {
+            float: right;
+            position: absolute;
+            bottom: 1em;
+            right: 1em;
+        }
+    }
+
+}

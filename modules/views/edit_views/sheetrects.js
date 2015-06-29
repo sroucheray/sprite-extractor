@@ -9,6 +9,7 @@ let View = Backbone.View.extend({
         this.numSelected = 0;
         this.model.on("add", (rect)=>{
             this.renderRect(rect);
+            $(".sheet-guides").css("z-index", spriteSheet.maxSize + 1);
         });
         this.model.on("reset", (rect)=>{
             this.removeRects();
@@ -41,7 +42,7 @@ let View = Backbone.View.extend({
             "height":rectModel.attributes.height,
             "x": rectModel.attributes.x,
             "y": rectModel.attributes.y,
-        }).toggleClass("hide", rectModel.has("show") && !rectModel.get("show"))
+        }).toggleClass("hide", !rectModel.get("visible"))
           .toggleClass("selected", rectModel.has("selected") && rectModel.get("selected"));
     },
     changeRect:function(rect){

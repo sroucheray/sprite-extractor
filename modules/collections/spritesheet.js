@@ -1,25 +1,42 @@
 import SpriteModel from "modules/models/sprite";
 import Backbone from "backbone";
+import fileModel from "modules/models/file";
 import _ from "lodash";
 
 var SpriteSheet = Backbone.Collection.extend({
     model: SpriteModel,
     initialize:function(){
-        this.maxID = 0;
-        this.maxSize = 0;
+        this.numVisible = 0;
+        this.on("add remove", (rect)=>{
+            fileModel.set("maxID", Math.max(fileModel.get("maxID"), rect.id));
+            fileModel.set("maxSize", Math.max(fileModel.get("maxSize"), rect.size));
+            fileModel.set("maxWidth", Math.max(fileModel.get("maxWidth"), rect.attributes.width));
+            fileModel.set("maxHeight", Math.max(fileModel.get("maxHeight"), rect.attributes.height));
 
-        this.on("add", (rect)=>{
-            this.maxID = Math.max(this.maxID, rect.id);
-            this.maxSize = Math.max(this.maxSize, rect.size);
+            fileModel.set("minSize", Math.min(fileModel.get("minSize"), rect.size));
+            fileModel.set("minWidth", Math.min(fileModel.get("minWidth"), rect.attributes.width));
+            fileModel.set("minHeight", Math.min(fileModel.get("minHeight"), rect.attributes.height));
         });
+
+        this.on("change:visible add remove", _.throttle(()=>{
+            console.log(this.numVisible)
+            this.numVisible = this.filter(function(rect){
+                return rect.get("visible");
+            }).length;
+
+            this.trigger("update_visibility");
+        }, 500));
+
     },
     selected: function(){
         return this.filter(function(rect){
-            return rect.get("selected");
+            return rect.get("selected") && rect.get("visible");
         });
     },
-    numVisible:function(){
-        return this.visible().length;
+    visible: function(){
+        return this.filter(function(rect){
+            return rect.get("visible");
+        });
     },
     rowsVisible:function(){
         this.visible().pluck("line");
@@ -99,6 +116,18 @@ var SpriteSheet = Backbone.Collection.extend({
     mergeSelection:function(){
         let selectedRects = this.selected();
         this.mergeRects(selectedRects);
+    },
+    removeSelection:function(){
+        let selectedRects = this.selected();
+        this.remove(selectedRects);
+    },
+    filterOnSize:function(wider, narrower, taller, smaller, morethanpixels, lessthanpixels){
+        this.forEach(function(rect){
+            let visible = rect.size >= morethanpixels && rect.size <= lessthanpixels && rect.attributes.width >= wider && rect.attributes.width <= narrower && rect.attributes.height >= taller && rect.attributes.height <= smaller;
+            rect.set("visible", visible);
+        }.bind(this))
+
+        this.trigger("change:visible");
     }
 });
 

@@ -31,9 +31,10 @@ let View = Backbone.View.extend({
 
         this.model.on("change:displayStyle", (model)=>{
             var style = model.get("displayStyle");
+            this.stage.visible = true;
             this.$el.removeClass("greyed invisible");
             if(style === "-1"){
-                this.$el.addClass("invisible");
+                this.stage.visible = false;//this.$el.addClass("invisible");
             }
 
             if(style === "1"){

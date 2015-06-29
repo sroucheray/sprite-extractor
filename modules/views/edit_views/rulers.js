@@ -1,5 +1,6 @@
 import $ from "jquery";
 import fileModel from "modules/models/file";
+import spriteSheet from "modules/collections/spritesheet";
 
 let offset = 150;
 let topBarOffset = 52;
@@ -12,8 +13,11 @@ export default function init(){
     updateRuler();
 
     fileModel.on("change:date", ()=>{
-        console.log("update rulerds")
         updateRuler();
+    });
+
+    spriteSheet.on("add", ()=>{
+        $rulers.css("z-index", spriteSheet.maxSize);
     });
 };
 

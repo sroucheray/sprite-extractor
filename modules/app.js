@@ -2,6 +2,7 @@ import $ from "jquery";
 import "bootstrap";
 import initHomeView from "modules/views/HomeView";
 import initEditView from "modules/views/EditView";
+import initCSSView from "modules/views/CSSView";
 
 /*import BodyView from "modules/views/body";
 import CanvasView from "modules/views/canvas";
@@ -18,8 +19,13 @@ import ImageClip from "esstage/draw/ImageClip";*/
 $(function(){
     initHomeView();
     initEditView();
+    initCSSView();
 
     $(".navbar a:first").tab("show");
+
+    $(".navbar a").on("shown.bs.tab", event=>{
+        $("body").toggleClass("checker", $(event.currentTarget).attr("href") === "#edit");
+    })
 
 
     /*let bodyView = new BodyView();*/

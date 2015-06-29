@@ -5,6 +5,7 @@
     <meta name="description" content="sprite extractor">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sprite Extractor</title>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/styles.css">
     <script src="./jspm_packages/system.js"></script>
     <script src="./config.js"></script>
@@ -52,7 +53,7 @@
         </div>
         <div id="edit" class="editing-view">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-9">
                     <div class="editor">
                         <canvas class="sprite" id="sprite"></canvas>
                         <div class="sheet-rect"></div>
@@ -70,8 +71,58 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 editor-panel">
+                <div class="col-md-3 editor-panel">
                     <div class="panel-group" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading sprite-heading">No sprite found</div>
+                            <div class="panel-body">
+                                <form autocomplete="off">
+                                    <label>Display sprites which...</label>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon prefix-addon">are wider than</span>
+                                            <input type="number" class="form-control" id="wider" value="0">
+                                            <span class="input-group-addon">px</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon prefix-addon">are narrower than</span>
+                                            <input type="number" class="form-control" id="narrower" value="1000">
+                                            <span class="input-group-addon">px</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon prefix-addon">are taller than</span>
+                                            <input type="number" class="form-control" id="taller" value="0">
+                                            <span class="input-group-addon">px</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon prefix-addon">are smaller than</span>
+                                            <input type="number" class="form-control" id="smaller" value="1000">
+                                            <span class="input-group-addon">px</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon prefix-addon">has more than</span>
+                                            <input type="number" class="form-control" id="morethanpixels" value="0">
+                                            <span class="input-group-addon">pixels</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon prefix-addon">has less than</span>
+                                            <input type="number" class="form-control" id="lessthanpixels" value="1000">
+                                            <span class="input-group-addon">pixels</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">Display settings</div>
                             <div class="panel-body">
@@ -94,15 +145,18 @@
                             </div>
                         </div>
                         <div class="panel panel-default">
-                            <div class="panel-heading">Rectangles selection</div>
+                            <div class="panel-heading selection-heading">No sprite selected</div>
                             <div class="panel-body">
                                 <form id="selectionForm">
                                     <fieldset disabled>
                                         <div class="form-group merge-overlapping">
-                                            <button type="button" class="btn btn-default btn-sm">Select overlapping rectangle</button>
+                                            <button type="button" class="btn btn-default btn-sm">Select overlapping sprites</button>
                                         </div>
                                         <div class="form-group merge-selected">
-                                            <button type="button" class="btn btn-default btn-sm">Merge selected rectangle</button>
+                                            <button type="button" class="btn btn-default btn-sm">Merge selected sprites</button>
+                                        </div>
+                                        <div class="form-group remove-selected">
+                                            <button type="button" class="btn btn-default btn-sm">Remove selected sprites</button>
                                         </div>
                                     </fieldset>
                                 </form>
@@ -112,7 +166,18 @@
                 </div>
             </div>
         </div>
-        <div id="css" class="css-view"></div>
+        <div id="css" class="css-view">
+            <div class="row">
+                <div class="col-md-9">
+                    <ol class="code">
+
+                    </ol>
+                </div>
+                <div class="col-md-3">
+                    Test
+                </div>
+            </div>
+        </div>
 
     </div>
     <script>
