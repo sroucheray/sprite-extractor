@@ -1,5 +1,5 @@
 System.config({
-  "baseURL": "/",
+  "baseURL": "/sprite-extractor/",
   "transpiler": "traceur",
   "paths": {
     "*": "*.js",
