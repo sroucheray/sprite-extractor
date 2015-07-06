@@ -4,7 +4,7 @@ importScripts("/sprite-extractor/jspm_packages/es6-module-loader.js");
 importScripts("/sprite-extractor/jspm_packages/system.js");
 importScripts("/sprite-extractor/config.js");
 
-var importPromise = System.import(System.baseURL + "modules/workers/SpriteAnalyser");
+var importPromise = System.import("modules/workers/SpriteAnalyser");
 var spriteAnalyser;
 onmessage = function(e) {
     var imageData = e.data.imageData;
