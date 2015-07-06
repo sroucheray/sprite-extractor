@@ -1,0 +1,43 @@
+{
+  "name": "esstage",
+  "version": "1.0.0",
+  "description": "",
+  "main": false,
+  "devDependencies": {
+    "traceur": "github:jmcriffey/bower-traceur@0.0.89",
+    "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.89"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "@sroucheray",
+  "license": "ISC",
+  "jspm": {
+    "registry": "github",
+    "format": "es6",
+    "directories": {},
+    "dependencies": {
+      "event-class": "npm:event-class@^0.1.1"
+    },
+    "devDependencies": {
+      "traceur": "github:jmcriffey/bower-traceur@0.0.89",
+      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.89"
+    },
+    "overrides": {
+      "npm:event-class@0.1.0": {
+        "format": "es6"
+      }
+    }
+  },
+  "registry": "github",
+  "format": "es6",
+  "directories": {},
+  "overrides": {
+    "npm:event-class@0.1.0": {
+      "format": "es6"
+    }
+  },
+  "dependencies": {
+    "event-class": "npm:event-class@^0.1.1"
+  }
+}

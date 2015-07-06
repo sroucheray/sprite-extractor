@@ -1,0 +1,1 @@
+export * from "npm:event-class@0.1.1/EventClass";
