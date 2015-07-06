@@ -17,7 +17,7 @@ export default ()=>{
     updateRulers();
 
     let stage = canvasView.stage;
-    let spriteWorker = new Worker("/modules/workers/spriteWorker.js");
+    let spriteWorker = new Worker(System.baseURL + "/modules/workers/spriteWorker.js");
     let sheetRect = new SheetRect();
     let sheetRows = new SheetRows({
         stage: stage
